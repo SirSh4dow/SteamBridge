@@ -4,6 +4,7 @@ namespace SteamBridge.Core;
 
 internal static class SafeFile
 {
+    // Backups are never overwritten or pruned. Any failure prevents publication.
     internal static string? CreateBackup(string filePath)
     {
         string path = Path.GetFullPath(filePath);
@@ -37,6 +38,7 @@ internal static class SafeFile
         WriteAtomic(filePath, bytes);
     }
 
+    // Callers doing a multi-file update must back up ALL originals first.
     internal static void WriteAtomic(string filePath, byte[] bytes)
     {
         string path = Path.GetFullPath(filePath);
@@ -54,10 +56,11 @@ internal static class SafeFile
             if (File.Exists(path))
                 File.Replace(temporary, path, null);
             else
-                File.Move(temporary, path);
+                File.Move(temporary, path); // Never overwrite a file created concurrently.
         }
         finally
         {
+            // A cleanup failure must not mask the original write failure.
             try { File.Delete(temporary); }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }
