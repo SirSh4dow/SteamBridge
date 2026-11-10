@@ -4,3 +4,9 @@ publish/
 publish-native/
 *.user
 .vs/
+artifacts/
+__pycache__/
+*.pyc
+*.pdb
+tests/VBCSCompiler/
+tests/*.log
