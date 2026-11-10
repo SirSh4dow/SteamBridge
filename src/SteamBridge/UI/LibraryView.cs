@@ -153,7 +153,7 @@ public class LibraryView : UserControl
                 var g = _scannedGames[e.RowIndex];
                 if (e.ColumnIndex == 4) // Status
                 {
-                    e.Value = g.AlreadyInSteam ? "\u2713 Já adicionado" : "Pendente";
+                    e.Value = g.AlreadyInSteam ? "✓ Já adicionado" : "Pendente";
                 }
             }
         };

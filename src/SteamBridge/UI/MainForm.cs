@@ -100,7 +100,7 @@ public sealed class MainForm : Form
 
         var logoIcon = new Label
         {
-            Text = "\u25b2",
+            Text = "▲",
             Font = new Font("Segoe UI Symbol", 20F, FontStyle.Bold),
             ForeColor = Color.FromArgb(67, 97, 238),
             AutoSize = true,
@@ -263,7 +263,7 @@ public sealed class MainForm : Form
         bool running = SteamLocator.IsSteamRunning();
         if (running)
         {
-            _steamStatusLabel.Text = "\u25cf Steam Aberto";
+            _steamStatusLabel.Text = "● Steam Aberto";
             _steamStatusLabel.ForeColor = Color.FromArgb(46, 125, 50); // Verde
             _toggleSteamBtn.Text = "Fechar Steam";
             _toggleSteamBtn.BackColor = Color.FromArgb(239, 68, 68); // Vermelho
@@ -271,7 +271,7 @@ public sealed class MainForm : Form
         }
         else
         {
-            _steamStatusLabel.Text = "\u25cb Steam Fechado";
+            _steamStatusLabel.Text = "○ Steam Fechado";
             _steamStatusLabel.ForeColor = Color.FromArgb(120, 120, 120);
             _toggleSteamBtn.Text = "Abrir Steam";
             _toggleSteamBtn.BackColor = Color.FromArgb(67, 97, 238); // Azul
