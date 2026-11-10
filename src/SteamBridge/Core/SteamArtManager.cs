@@ -53,6 +53,7 @@ public static class SteamArtManager
             .Where(path => Path.GetFileNameWithoutExtension(path).Equals(baseName, StringComparison.OrdinalIgnoreCase)
                 && Extensions.Contains(Path.GetExtension(path), StringComparer.OrdinalIgnoreCase)).ToList();
 
+        // Back up every variant before publishing or removing any of them.
         foreach (string original in originals)
             if (SafeFile.CreateBackup(original) == null)
                 throw new IOException($"Arte original desapareceu antes do backup: {original}");
