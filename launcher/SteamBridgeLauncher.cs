@@ -1,6 +1,6 @@
-// SteamBridgeLauncher - tiny helper that launches UWP/Xbox games (via
-// ApplicationActivationManager) and launcher URIs (e.g. Epic) from a Steam
-// shortcut, keeping the process alive so Steam tracks playtime.
+// SteamBridgeAuxiliar - nao e o programa. A Steam chama este arquivo para abrir
+// jogos da Xbox (ApplicationActivationManager) e URIs de launcher (Epic), e fica
+// vivo para o tempo de jogo ser contado. Quem abre a biblioteca e SteamBridge.exe.
 //
 // Build with build.ps1 (uses the .NET Framework csc.exe shipped with Windows).
 using System;
@@ -54,7 +54,7 @@ namespace SteamBridge
             {
                 if (args.Length < 2)
                 {
-                    return Fail("Uso:\n  SteamBridgeLauncher.exe --aumid \"PFN!AppId\" [--wait-exe nome.exe]\n  SteamBridgeLauncher.exe --uri \"com.epicgames.launcher://...\"\n  SteamBridgeLauncher.exe --exe \"C:\\jogo\\jogo.exe\" [--args \"...\"] [--cwd \"...\"]");
+                    return Fail("Este arquivo nao e o SteamBridge.\nAbra SteamBridge.exe.\n\nO auxiliar so e chamado pela Steam, para iniciar um jogo da Xbox ou da Epic.");
                 }
 
                 string mode = args[0].ToLowerInvariant();
