@@ -11,7 +11,7 @@ $ErrorActionPreference = "Stop"
 if (-not $Source) {
     $Source = Join-Path (Split-Path $PSScriptRoot -Parent) "publish-native"
 }
-if (-not (Test-Path -LiteralPath (Join-Path $Source "SteamBridge.Desktop.exe"))) {
+if (-not (Test-Path -LiteralPath (Join-Path $Source "SteamBridge.exe"))) {
     throw "Build publicado nao encontrado em '$Source'. Rode build-native.bat primeiro."
 }
 
@@ -54,7 +54,7 @@ if ($acl -match "S-1-16-(4096|12288|16384)") {
 $shell = New-Object -ComObject WScript.Shell
 $startMenu = Join-Path $env:APPDATA "Microsoft\Windows\Start Menu\Programs"
 $shortcut = $shell.CreateShortcut((Join-Path $startMenu "SteamBridge.lnk"))
-$shortcut.TargetPath = Join-Path $Target "SteamBridge.Desktop.exe"
+$shortcut.TargetPath = Join-Path $Target "SteamBridge.exe"
 $shortcut.WorkingDirectory = $Target
 $shortcut.Description = "SteamBridge - biblioteca unificada (copia em nivel normal)"
 $shortcut.Save()
