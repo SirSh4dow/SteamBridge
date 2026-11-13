@@ -18,8 +18,8 @@ Download: [SteamBridge 3.0.0](https://github.com/SirSh4dow/SteamBridge/releases/
 
 | Arquivo | O que é | Você clica? |
 |---|---|---|
-| `SteamBridge.Desktop.exe` | O aplicativo. Biblioteca, capas, coleções e configurações. | **Sim. É este que se abre.** |
-| `SteamBridgeLauncher.exe` | Auxiliar minúsculo. O Steam chama esse arquivo, por linha de comando, para iniciar jogo da Xbox (e alguns da Epic) e contar o tempo de jogo. | **Não.** Aberto com duplo clique ele não recebe o jogo, o modo nem os argumentos, e mostra erro de uso. Isso é esperado. |
+| `SteamBridge.exe` | O aplicativo. Biblioteca, capas, coleções e configurações. | **Sim. É só este.** |
+| `SteamBridgeAuxiliar.exe` | Peça interna. A Steam chama esse arquivo para iniciar jogo da Xbox (e alguns da Epic) e contar o tempo de jogo. | **Não.** Duplo clique não abre o programa. |
 
 O zip já traz o .NET embutido. Não é preciso instalar o runtime.
 
@@ -44,7 +44,7 @@ Se a pasta de onde o programa foi aberto tiver rótulo de integridade baixa do W
 
 O AppID de um atalho é o mesmo cálculo que a Steam faz a partir do executável (entre aspas, quando preciso) e do nome. É esse número que liga a capa ao jogo.
 
-Jogos Xbox não são abertos pelo `.exe` direto. O atalho aponta para o `SteamBridgeLauncher.exe` com `--aumid "Pacote!App"` e, quando existe, `--wait-exe nome.exe`, para o processo continuar vivo e a Steam contar o tempo. Jogos Epic que só têm URI de launcher usam `--uri`.
+Jogos Xbox não são abertos pelo `.exe` direto. O atalho aponta para o `SteamBridgeAuxiliar.exe` com `--aumid "Pacote!App"` e, quando existe, `--wait-exe nome.exe`, para o processo continuar vivo e a Steam contar o tempo. Jogos Epic que só têm URI de launcher usam `--uri`.
 
 ### Artes e capas
 
@@ -152,7 +152,7 @@ O launcher auxiliar não usa o SDK. Ele é compilado com o `csc.exe` do .NET Fra
 powershell -NoProfile -ExecutionPolicy Bypass -File launcher\build.ps1
 ```
 
-A saída é `launcher\bin\SteamBridgeLauncher.exe`. O projeto Desktop copia esse arquivo para junto do programa. Sem ele, atalho de Xbox não é criado.
+A saída é `launcher\bin\SteamBridgeAuxiliar.exe`. O projeto Desktop copia esse arquivo para junto do programa. Sem ele, atalho de Xbox não é criado.
 
 Para instalar fora de uma pasta com integridade baixa:
 
@@ -171,7 +171,7 @@ SteamBridge/
 ├── build-native.bat          publica o app e roda as checagens
 ├── run.bat                   abre a cópia em %USERPROFILE%\SteamBridge
 ├── launcher/
-│   ├── SteamBridgeLauncher.cs    auxiliar de Xbox/URI; não é a janela do app
+│   ├── SteamBridgeLauncher.cs    código do auxiliar; o arquivo gerado é SteamBridgeAuxiliar.exe
 │   └── build.ps1                 compila o launcher com o csc do Windows
 ├── tools/
 │   ├── install-local.ps1     copia verificada + atalho do Menu Iniciar
