@@ -186,6 +186,31 @@ public static class LibraryService
         return added;
     }
 
+    // Atalhos antigos apontavam para SteamBridgeLauncher.exe. O arquivo agora se chama
+    // SteamBridgeAuxiliar.exe. O AppID gravado não muda, então a capa continua no mesmo jogo.
+    public static int RepairLegacyHelpers(SteamInfo steam)
+    {
+        if (steam.SelectedUser == null) return 0;
+        string path = ShortcutPath(steam);
+        if (!File.Exists(path)) return 0;
+        string helper = Path.Combine(AppContext.BaseDirectory, "SteamBridgeAuxiliar.exe");
+        if (!File.Exists(helper)) return 0;
+        var current = ShortcutsVdf.Read(path);
+        int updated = 0;
+        foreach (var shortcut in current)
+        {
+            if (!Path.GetFileName(SteamUtils.Unquote(shortcut.Exe)).Equals("SteamBridgeLauncher.exe", StringComparison.OrdinalIgnoreCase)) continue;
+            shortcut.Exe = SteamUtils.QuoteIfNeeded(helper);
+            updated++;
+        }
+        if (updated > 0)
+        {
+            EnsureSteamClosed();
+            ShortcutsVdf.Write(path, current);
+        }
+        return updated;
+    }
+
     public static void RenameIntegrated(SteamInfo steam, GameItem item)
     {
         if (item.Source == "steam") throw new InvalidOperationException("O nome de um jogo da Steam não pode ser alterado aqui.");
