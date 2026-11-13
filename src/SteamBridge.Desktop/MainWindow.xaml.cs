@@ -185,7 +185,14 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         _loadedContext = ContextKey();
         if (ArtGameCombo.SelectedIndex < 0 && ArtGames.Count > 0) ArtGameCombo.SelectedIndex = 0;
         ShowShelf();
+        int repaired = 0;
+        if (!SteamLocator.IsSteamRunning())
+        {
+            try { repaired = LibraryService.RepairLegacyHelpers(_steam); }
+            catch (Exception ex) { warnings.Add("Atalhos antigos: " + ex.Message); }
+        }
         Status = warnings.Count > 0 ? $"Biblioteca carregada com {warnings.Count} aviso(s). " + string.Join(" | ", warnings)
+            : repaired > 0 ? $"{repaired} atalho(s) da Xbox agora usam SteamBridgeAuxiliar.exe. Abra o Steam de novo para valer."
             : $"{TotalCount} jogos carregados · " + (discover ? "Scan concluído. Nenhum arquivo do Steam foi alterado." : "Escaneie para descobrir jogos Epic, Xbox e locais.");
         if (_steam.SelectedUser == null) Status = "Nenhuma conta Steam encontrada. Entre no Steam uma vez ou configure a pasta de instalação.";
     }
