@@ -92,15 +92,22 @@ public static class LibraryService
     private static bool IsInside(string file, string directory) => !string.IsNullOrEmpty(directory)
         && file.StartsWith(directory.TrimEnd('\\', '/') + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
 
+    private static bool IsIntegrationHelper(string exe)
+    {
+        string name = Path.GetFileName(exe);
+        return name.Equals("SteamBridgeAuxiliar.exe", StringComparison.OrdinalIgnoreCase)
+            || name.Equals("SteamBridgeLauncher.exe", StringComparison.OrdinalIgnoreCase);
+    }
+
     public static bool MatchesShortcut(ScannedGame game, SteamShortcut shortcut)
     {
         string exe = SteamUtils.Unquote(shortcut.Exe);
         if (!string.IsNullOrWhiteSpace(game.Aumid))
-            return Path.GetFileName(exe).Equals("SteamBridgeLauncher.exe", StringComparison.OrdinalIgnoreCase)
+            return IsIntegrationHelper(exe)
                 && (shortcut.LaunchOptions == "--aumid " + QuoteArgument(game.Aumid)
                     || shortcut.LaunchOptions.StartsWith("--aumid " + QuoteArgument(game.Aumid) + " ", StringComparison.Ordinal));
         if (!string.IsNullOrWhiteSpace(game.Uri) && (exe.Equals(game.Uri, StringComparison.OrdinalIgnoreCase)
-            || (Path.GetFileName(exe).Equals("SteamBridgeLauncher.exe", StringComparison.OrdinalIgnoreCase)
+            || (IsIntegrationHelper(exe)
                 && shortcut.LaunchOptions.StartsWith("--uri " + QuoteArgument(game.Uri), StringComparison.Ordinal)))) return true;
         return !string.IsNullOrWhiteSpace(game.Exe) && exe.Equals(game.Exe, StringComparison.OrdinalIgnoreCase)
             && shortcut.LaunchOptions.Trim().Equals(game.LaunchArgs.Trim(), StringComparison.Ordinal);
@@ -139,16 +146,16 @@ public static class LibraryService
         string cwd = game.Cwd;
         if (!string.IsNullOrWhiteSpace(game.Aumid))
         {
-            exe = Path.Combine(AppContext.BaseDirectory, "SteamBridgeLauncher.exe");
-            if (!File.Exists(exe)) throw new FileNotFoundException("Launcher Xbox ausente. Mantenha SteamBridgeLauncher.exe junto do aplicativo.");
+            exe = Path.Combine(AppContext.BaseDirectory, "SteamBridgeAuxiliar.exe");
+            if (!File.Exists(exe)) throw new FileNotFoundException("Arquivo auxiliar ausente. Mantenha SteamBridgeAuxiliar.exe na mesma pasta do SteamBridge.exe.");
             args = "--aumid " + QuoteArgument(game.Aumid);
             if (!string.IsNullOrEmpty(game.Exe)) args += " --wait-exe " + QuoteArgument(Path.GetFileName(game.Exe));
             cwd = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar);
         }
         else if (string.IsNullOrWhiteSpace(exe) && !string.IsNullOrWhiteSpace(game.Uri))
         {
-            exe = Path.Combine(AppContext.BaseDirectory, "SteamBridgeLauncher.exe");
-            if (!File.Exists(exe)) throw new FileNotFoundException("Launcher auxiliar ausente.");
+            exe = Path.Combine(AppContext.BaseDirectory, "SteamBridgeAuxiliar.exe");
+            if (!File.Exists(exe)) throw new FileNotFoundException("Arquivo auxiliar ausente. Mantenha SteamBridgeAuxiliar.exe na mesma pasta do SteamBridge.exe.");
             args = "--uri " + QuoteArgument(game.Uri);
             cwd = AppContext.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar);
         }
