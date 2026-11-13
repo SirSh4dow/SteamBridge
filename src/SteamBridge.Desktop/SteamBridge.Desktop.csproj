@@ -5,7 +5,7 @@
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>SteamBridge.Desktop</AssemblyName>
+    <AssemblyName>SteamBridge</AssemblyName>
     <RootNamespace>SteamBridge.Desktop</RootNamespace>
     <ApplicationManifest>../SteamBridge/app.manifest</ApplicationManifest>
     <Version>3.0.0</Version>
@@ -16,6 +16,6 @@
     <Compile Include="../SteamBridge/Core/*.cs" Link="Core/%(Filename)%(Extension)" />
     <Compile Include="../SteamBridge/Models/*.cs" Link="Models/%(Filename)%(Extension)" />
     <Compile Include="../SteamBridge/Scanners/*.cs" Link="Scanners/%(Filename)%(Extension)" />
-    <Content Include="../../launcher/bin/SteamBridgeLauncher.exe" Link="SteamBridgeLauncher.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="../../launcher/bin/SteamBridgeAuxiliar.exe" Link="SteamBridgeAuxiliar.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
