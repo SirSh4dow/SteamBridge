@@ -11,7 +11,7 @@ if (-not (Test-Path $csc)) {
 
 $outDir = Join-Path $PSScriptRoot 'bin'
 New-Item -ItemType Directory -Force -Path $outDir | Out-Null
-$out = Join-Path $outDir 'SteamBridgeLauncher.exe'
+$out = Join-Path $outDir 'SteamBridgeAuxiliar.exe'
 
 & $csc /nologo /target:winexe /optimize+ /platform:anycpu `
     "/out:$out" `
